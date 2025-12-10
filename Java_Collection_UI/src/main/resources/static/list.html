@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>List Interface - Akash</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+        body {
+            box-sizing: border-box;
+        }
+        
+        .gradient-bg { 
+            background: linear-gradient(135deg, #667eea, #764ba2); 
+        }
+        
+        .glass { 
+            background: rgba(255, 255, 255, 0.95); 
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .card {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card:hover { 
+            transform: translateY(-8px); 
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, currentColor, transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .card:hover::before {
+            opacity: 1;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-fade-in {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        
+        .icon-badge {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin: 0 auto 1rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <div class="min-h-full w-full gradient-bg overflow-auto flex items-center justify-center py-10 px-4">
+   <div class="glass p-10 rounded-3xl shadow-2xl max-w-5xl w-full animate-fade-in"><!-- Header Section -->
+    <div class="text-center mb-8">
+     <div class="text-5xl mb-4">
+      📝
+     </div>
+     <h1 class="text-5xl font-extrabold text-purple-700 mb-3">List Interface</h1>
+     <div class="w-32 h-1 bg-gradient-to-r from-purple-600 to-blue-600 mx-auto rounded-full mb-6"></div>
+     <p class="text-gray-700 text-xl leading-relaxed max-w-2xl mx-auto"><b class="text-purple-700">List</b> maintains insertion order and allows duplicates. Choose any implementation below to start learning interactively:</p>
+    </div><!-- Implementation Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8"><!-- ArrayList Card --> <a href="arraylist.html" class="card glass rounded-2xl shadow-lg p-8 text-center bg-gradient-to-br from-purple-50 to-purple-100 hover:from-purple-100 hover:to-purple-200 border-2 border-purple-200" style="color: #7c3aed;">
+      <div class="icon-badge bg-gradient-to-br from-purple-500 to-purple-600 text-white">
+       📊
+      </div><h2 class="text-2xl font-bold text-purple-700 mb-3">ArrayList</h2><p class="text-gray-600 text-base leading-relaxed mb-2">Dynamic array implementation</p><p class="text-sm text-purple-600 font-medium">✓ Fast random access</p></a> <!-- LinkedList Card --> <a href="linkedlist.html" class="card glass rounded-2xl shadow-lg p-8 text-center bg-gradient-to-br from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200 border-2 border-blue-200" style="color: #2563eb;">
+      <div class="icon-badge bg-gradient-to-br from-blue-500 to-blue-600 text-white">
+       🔗
+      </div><h2 class="text-2xl font-bold text-blue-700 mb-3">LinkedList</h2><p class="text-gray-600 text-base leading-relaxed mb-2">Node-based implementation</p><p class="text-sm text-blue-600 font-medium">✓ Fast insertion/deletion</p></a> <!-- Vector Card --> <a href="vector.html" class="card glass rounded-2xl shadow-lg p-8 text-center bg-gradient-to-br from-green-50 to-green-100 hover:from-green-100 hover:to-green-200 border-2 border-green-200" style="color: #16a34a;">
+      <div class="icon-badge bg-gradient-to-br from-green-500 to-green-600 text-white">
+       🔒
+      </div><h2 class="text-2xl font-bold text-green-700 mb-3">Vector</h2><p class="text-gray-600 text-base leading-relaxed mb-2">Thread-safe List</p><p class="text-sm text-green-600 font-medium">✓ Synchronized methods</p></a>
+    </div><!-- Back Navigation -->
+    <div class="text-center pt-6 border-t-2 border-purple-200"><a href="collections.html" class="inline-block text-purple-700 hover:text-purple-900 font-semibold text-lg transition-all px-6 py-2 rounded-lg border-2 border-purple-300 hover:border-purple-500 hover:bg-purple-50"> ← Back to Collections </a>
+    </div>
+   </div>
+  </div>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9abde24100516eef',t:'MTc2NTM4MTY3OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

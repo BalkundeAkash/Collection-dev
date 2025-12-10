@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collections Overview - Akash</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        body { box-sizing: border-box; }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #764ba2, #667eea);
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade-in {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .learning-card {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(147, 51, 234, 0.1) 100%);
+            border: 2px solid rgba(59, 130, 246, 0.2);
+        }
+    </style>
+
+</head>
+
+<body class="h-full">
+
+    <div class="min-h-full w-full gradient-bg overflow-auto flex items-center justify-center py-10 px-4">
+
+        <div class="glass p-10 rounded-3xl shadow-2xl max-w-2xl w-full animate-fade-in">
+
+            <!-- Header -->
+            <div class="text-center mb-6">
+                <div class="text-5xl mb-3">📚</div>
+                <h1 class="text-4xl font-extrabold text-purple-700 mb-4">Java Collections Framework</h1>
+            </div>
+
+            <!-- Framework Description -->
+            <p class="text-gray-700 leading-relaxed text-lg mb-8 text-center">
+                The <b class="text-purple-700">Collections Framework</b> provides structured interfaces and classes 
+                to store, retrieve and manipulate data. It includes 
+                <b class="text-blue-600">List</b>, <b class="text-blue-600">Set</b>, 
+                <b class="text-blue-600">Map</b>, <b class="text-blue-600">Queue</b> and many more.
+            </p>
+
+            <!-- Learning Section -->
+            <div class="learning-card rounded-2xl p-6 mb-8">
+                <div class="flex items-center gap-2 mb-4">
+                    <span class="text-3xl">🎯</span>
+                    <h2 class="text-2xl font-bold text-blue-700">Today We Learn:</h2>
+                </div>
+                <ul class="text-gray-700 text-lg space-y-3 ml-8">
+                    <li class="flex items-start gap-2"><span class="text-blue-600 font-bold">•</span> What is List?</li>
+                    <li class="flex items-start gap-2"><span class="text-blue-600 font-bold">•</span> What are its implementations?</li>
+                    <li class="flex items-start gap-2"><span class="text-blue-600 font-bold">•</span> ArrayList, LinkedList, Vector overview</li>
+                </ul>
+            </div>
+
+            <!-- Interface Buttons -->
+            <a href="list.html"
+               class="block text-center bg-blue-600 hover:bg-blue-700 text-white py-4 px-8 rounded-xl text-xl font-semibold 
+                      transition-all transform hover:scale-105 shadow-lg hover:shadow-xl mb-4">
+                List Interface →
+            </a>
+
+            <button onclick="showComingSoon('Set Interface')"
+                    class="block w-full text-center bg-purple-600 hover:bg-purple-700 text-white py-4 px-8 rounded-xl 
+                           text-xl font-semibold transition-all transform hover:scale-105 shadow-lg hover:shadow-xl mb-4">
+                Set Interface →
+            </button>
+
+            <button onclick="showComingSoon('Queue Interface')"
+                    class="block w-full text-center bg-purple-600 hover:bg-purple-700 text-white py-4 px-8 rounded-xl 
+                           text-xl font-semibold transition-all transform hover:scale-105 shadow-lg hover:shadow-xl mb-4">
+                Queue Interface →
+            </button>
+
+            <button onclick="showComingSoon('Map Interface')"
+                    class="block w-full text-center bg-purple-600 hover:bg-purple-700 text-white py-4 px-8 rounded-xl 
+                           text-xl font-semibold transition-all transform hover:scale-105 shadow-lg hover:shadow-xl mb-6">
+                Map Interface →
+            </button>
+
+            <!-- Back Navigation -->
+            <div class="text-center pt-4 border-t border-purple-200">
+                <a href="homepage.html" 
+                   class="text-purple-700 hover:text-purple-900 underline text-lg font-medium transition-colors inline-flex items-center gap-2">
+                    ← Back to Homepage
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Coming Soon Popup -->
+    <div id="comingSoonPopup"
+         class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
+
+        <div class="glass p-8 rounded-2xl shadow-2xl text-center animate-fade-in max-w-sm">
+            <div class="text-5xl mb-3">🚧</div>
+            <h2 id="comingTitle" class="text-2xl font-bold text-purple-700 mb-2"></h2>
+            <p class="text-gray-700 text-lg mb-4">This feature is under development and will be available soon!</p>
+
+            <button onclick="closeComingSoon()"
+                    class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg text-lg shadow">
+                Close
+            </button>
+        </div>
+    </div>
+
+
+    <!-- JS for Popup -->
+    <script>
+        function showComingSoon(name) {
+            document.getElementById("comingTitle").textContent = name + " — Launching Soon";
+            document.getElementById("comingSoonPopup").classList.remove("hidden");
+        }
+
+        function closeComingSoon() {
+            document.getElementById("comingSoonPopup").classList.add("hidden");
+        }
+    </script>
+
+</body>
+</html>
