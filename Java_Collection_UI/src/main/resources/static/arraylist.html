@@ -1,0 +1,597 @@
+<!doctype html>
+<html lang="en" class="h-full">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ArrayList Playground</title>
+	<script src="/_sdk/element_sdk.js"></script>
+	<script src="https://cdn.tailwindcss.com"></script>
+	<style>
+		body {
+			box-sizing: border-box;
+		}
+
+		@keyframes fadeIn {
+			from {
+				opacity: 0;
+				transform: translateY(10px);
+			}
+
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+
+		@keyframes pulse {
+
+			0%,
+			100% {
+				transform: scale(1);
+			}
+
+			50% {
+				transform: scale(1.05);
+			}
+		}
+
+		.fade-in {
+			animation: fadeIn 0.3s ease-out;
+		}
+
+		.pulse-once {
+			animation: pulse 0.4s ease-out;
+		}
+
+		.code-output {
+			font-family: 'Courier New', monospace;
+			line-height: 1.6;
+		}
+
+		.glass-effect {
+			background: rgba(255, 255, 255, 0.95);
+			backdrop-filter: blur(10px);
+		}
+
+		.gradient-bg {
+			background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		}
+
+		.input-focus:focus {
+			outline: none;
+			ring: 2px;
+			ring-color: #667eea;
+		}
+
+		.operation-card {
+			transition: all 0.3s ease;
+		}
+
+		.operation-card:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+		}
+	</style>
+	<style>
+		@view-transition {
+			navigation: auto;
+		}
+	</style>
+	<script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+</head>
+
+<body class="h-full">
+	<div class="min-h-full w-full gradient-bg overflow-auto">
+		<div class="max-w-7xl mx-auto px-4 py-8"><!-- Header -->
+			<div class="text-center mb-8 fade-in">
+				<h1 id="mainTitle" class="text-5xl font-bold text-white mb-2"
+					style="text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">ArrayList Playground</h1>
+				<p id="subtitle" class="text-xl text-white opacity-90">Interactive Java ArrayList Learning Tool</p>
+			</div><!-- Main Grid -->
+			<div class="grid grid-cols-1 lg:grid-cols-2 gap-6"><!-- Left Column: Operations -->
+				<div class="space-y-4"><!-- Create List -->
+					<div class="glass-effect rounded-2xl p-6 shadow-xl operation-card">
+						<h2 class="text-2xl font-bold text-purple-700 mb-4 flex items-center gap-2"><span>✨</span>
+							Create List</h2><input type="text" id="inputCreate"
+							placeholder="Enter items separated by commas"
+							class="w-full px-4 py-3 border-2 border-purple-300 rounded-lg focus:border-purple-500 focus:outline-none transition-all">
+						<button onclick="createList()"
+							class="mt-3 w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-lg transition-all transform hover:scale-105">
+							Create ArrayList </button>
+					</div><!-- Add Element -->
+					<div class="glass-effect rounded-2xl p-6 shadow-xl operation-card">
+						<h2 class="text-2xl font-bold text-blue-700 mb-4 flex items-center gap-2"><span>➕</span> Add
+							Element</h2><input type="text" id="inputAdd" placeholder="Value to add"
+							class="w-full px-4 py-3 border-2 border-blue-300 rounded-lg focus:border-blue-500 focus:outline-none transition-all">
+						<button onclick="addElement()"
+							class="mt-3 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-all transform hover:scale-105">
+							Add to End </button>
+					</div><!-- Add at Index -->
+					<div class="glass-effect rounded-2xl p-6 shadow-xl operation-card">
+						<h2 class="text-2xl font-bold text-teal-700 mb-4 flex items-center gap-2"><span>📌</span> Add at
+							Index</h2>
+						<div class="flex gap-3"><input type="number" id="inputAddIndex" placeholder="Index"
+								class="w-1/3 px-4 py-3 border-2 border-teal-300 rounded-lg focus:border-teal-500 focus:outline-none transition-all">
+							<input type="text" id="inputAddIndexValue" placeholder="Value"
+								class="flex-1 px-4 py-3 border-2 border-teal-300 rounded-lg focus:border-teal-500 focus:outline-none transition-all">
+						</div><button onclick="addAtIndex()"
+							class="mt-3 w-full bg-teal-600 hover:bg-teal-700 text-white font-semibold py-3 px-6 rounded-lg transition-all transform hover:scale-105">
+							Insert at Index </button>
+					</div><!-- Remove Operations -->
+					<div class="glass-effect rounded-2xl p-6 shadow-xl operation-card">
+						<h2 class="text-2xl font-bold text-red-700 mb-4 flex items-center gap-2"><span>🗑️</span> Remove
+							Element</h2>
+						<div class="space-y-3">
+							<div class="flex gap-3"><input type="number" id="inputRemoveIndex"
+									placeholder="Index to remove"
+									class="flex-1 px-4 py-3 border-2 border-red-300 rounded-lg focus:border-red-500 focus:outline-none transition-all">
+								<button onclick="removeIndex()"
+									class="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg transition-all transform hover:scale-105">
+									Remove </button>
+							</div>
+							<div class="flex gap-3"><input type="text" id="inputRemoveValue"
+									placeholder="Value to remove"
+									class="flex-1 px-4 py-3 border-2 border-red-300 rounded-lg focus:border-red-500 focus:outline-none transition-all">
+								<button onclick="removeValue()"
+									class="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg transition-all transform hover:scale-105">
+									Remove </button>
+							</div>
+						</div>
+					</div><!-- Update Element -->
+					<div class="glass-effect rounded-2xl p-6 shadow-xl operation-card">
+						<h2 class="text-2xl font-bold text-amber-700 mb-4 flex items-center gap-2"><span>✏️</span>
+							Update Element</h2>
+						<div class="flex gap-3"><input type="number" id="inputUpdateIndex" placeholder="Index"
+								class="w-1/3 px-4 py-3 border-2 border-amber-300 rounded-lg focus:border-amber-500 focus:outline-none transition-all">
+							<input type="text" id="inputUpdateValue" placeholder="New value"
+								class="flex-1 px-4 py-3 border-2 border-amber-300 rounded-lg focus:border-amber-500 focus:outline-none transition-all">
+						</div><button onclick="updateValue()"
+							class="mt-3 w-full bg-amber-600 hover:bg-amber-700 text-white font-semibold py-3 px-6 rounded-lg transition-all transform hover:scale-105">
+							Update Value </button>
+					</div><!-- Get and Search -->
+					<div class="glass-effect rounded-2xl p-6 shadow-xl operation-card">
+						<h2 class="text-2xl font-bold text-green-700 mb-4 flex items-center gap-2"><span>🔍</span> Get
+							&amp; Search</h2>
+						<div class="space-y-3">
+							<div class="flex gap-3"><input type="number" id="inputGetIndex" placeholder="Index to get"
+									class="flex-1 px-4 py-3 border-2 border-green-300 rounded-lg focus:border-green-500 focus:outline-none transition-all">
+								<button onclick="getValue()"
+									class="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition-all transform hover:scale-105">
+									Get </button>
+							</div>
+							<div class="flex gap-3"><input type="text" id="inputSearch" placeholder="Value to search"
+									class="flex-1 px-4 py-3 border-2 border-green-300 rounded-lg focus:border-green-500 focus:outline-none transition-all">
+								<button onclick="searchValue()"
+									class="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition-all transform hover:scale-105">
+									Search </button>
+							</div>
+						</div>
+					</div>
+				</div><!-- Right Column: Output -->
+				<div class="space-y-4"><!-- Current List Output -->
+					<div class="glass-effect rounded-2xl p-6 shadow-xl">
+						<h2 id="outputLabel" class="text-2xl font-bold text-purple-700 mb-4 flex items-center gap-2">
+							<span>📋</span> Current List
+						</h2>
+						<div id="output"
+							class="bg-gradient-to-br from-gray-900 to-gray-800 text-cyan-400 p-6 rounded-lg min-h-[200px] code-output shadow-inner border-2 border-gray-700">
+							<div class="text-gray-500">
+								Your ArrayList will appear here...
+							</div>
+						</div>
+						<div class="mt-3 flex items-center gap-4 text-sm text-gray-600"><span
+								class="font-semibold">Size: <span id="listSize"
+									class="text-purple-600 text-lg">0</span></span> <span class="font-semibold">Empty:
+								<span id="listEmpty" class="text-purple-600 text-lg">Yes</span></span>
+						</div>
+					</div><!-- Java Code Output -->
+					<div class="glass-effect rounded-2xl p-6 shadow-xl">
+						<h2 id="codeLabel" class="text-2xl font-bold text-indigo-700 mb-4 flex items-center gap-2">
+							<span>💻</span> Java Code
+						</h2>
+						<div id="codeOutput"
+							class="bg-gradient-to-br from-gray-900 to-gray-800 text-green-400 p-6 rounded-lg min-h-[300px] code-output shadow-inner overflow-x-auto border-2 border-gray-700">
+							<div class="text-gray-500">
+								Java code will appear here...
+							</div>
+						</div>
+					</div><!-- Info Message -->
+					<div id="infoMessage" class="hidden glass-effect rounded-2xl p-4 shadow-xl">
+						<div class="flex items-start gap-3"><span class="text-2xl">💡</span>
+							<p id="infoText" class="text-gray-700 flex-1"></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		const defaultConfig = {
+			main_title: "ArrayList Playground",
+			subtitle: "Interactive Java ArrayList Learning Tool",
+			output_label: "Current List",
+			code_label: "Java Code",
+			background_color: "#667eea",
+			surface_color: "#ffffff",
+			text_color: "#374151",
+			primary_action_color: "#8b5cf6",
+			secondary_action_color: "#10b981",
+			font_family: "Arial",
+			font_size: 16
+		};
+
+		let list = [];
+
+		async function onConfigChange(config) {
+			const mainTitle = config.main_title || defaultConfig.main_title;
+			const subtitle = config.subtitle || defaultConfig.subtitle;
+			const outputLabel = config.output_label || defaultConfig.output_label;
+			const codeLabel = config.code_label || defaultConfig.code_label;
+			const backgroundColor = config.background_color || defaultConfig.background_color;
+			const surfaceColor = config.surface_color || defaultConfig.surface_color;
+			const textColor = config.text_color || defaultConfig.text_color;
+			const primaryColor = config.primary_action_color || defaultConfig.primary_action_color;
+			const secondaryColor = config.secondary_action_color || defaultConfig.secondary_action_color;
+			const fontFamily = config.font_family || defaultConfig.font_family;
+			const fontSize = config.font_size || defaultConfig.font_size;
+
+			document.getElementById('mainTitle').textContent = mainTitle;
+			document.getElementById('subtitle').textContent = subtitle;
+			document.getElementById('outputLabel').innerHTML = `<span>📋</span> ${outputLabel}`;
+			document.getElementById('codeLabel').innerHTML = `<span>💻</span> ${codeLabel}`;
+
+			document.querySelector('.gradient-bg').style.background = `linear-gradient(135deg, ${backgroundColor} 0%, ${adjustColor(backgroundColor, -20)} 100%)`;
+
+			document.querySelectorAll('.glass-effect').forEach(el => {
+				el.style.background = `${surfaceColor}f2`;
+			});
+
+			document.querySelectorAll('h1, h2, p, span, div, label').forEach(el => {
+				if (!el.classList.contains('text-white') && !el.classList.contains('text-cyan-400') && !el.classList.contains('text-green-400') && !el.classList.contains('text-gray-500')) {
+					el.style.color = textColor;
+				}
+			});
+
+			const baseFontStack = 'Arial, sans-serif';
+			document.getElementById('mainTitle').style.fontFamily = `${fontFamily}, ${baseFontStack}`;
+			document.getElementById('subtitle').style.fontFamily = `${fontFamily}, ${baseFontStack}`;
+			document.querySelectorAll('h2').forEach(el => {
+				el.style.fontFamily = `${fontFamily}, ${baseFontStack}`;
+			});
+
+			document.getElementById('mainTitle').style.fontSize = `${fontSize * 3}px`;
+			document.getElementById('subtitle').style.fontSize = `${fontSize * 1.25}px`;
+			document.querySelectorAll('h2').forEach(el => {
+				el.style.fontSize = `${fontSize * 1.5}px`;
+			});
+			document.querySelectorAll('input, button').forEach(el => {
+				el.style.fontSize = `${fontSize}px`;
+			});
+		}
+
+		function adjustColor(color, amount) {
+			const hex = color.replace('#', '');
+			const r = Math.max(0, Math.min(255, parseInt(hex.substr(0, 2), 16) + amount));
+			const g = Math.max(0, Math.min(255, parseInt(hex.substr(2, 2), 16) + amount));
+			const b = Math.max(0, Math.min(255, parseInt(hex.substr(4, 2), 16) + amount));
+			return '#' + [r, g, b].map(x => x.toString(16).padStart(2, '0')).join('');
+		}
+
+		function mapToCapabilities(config) {
+			return {
+				recolorables: [
+					{
+						get: () => config.background_color || defaultConfig.background_color,
+						set: (value) => {
+							config.background_color = value;
+							window.elementSdk.setConfig({background_color: value});
+						}
+					},
+					{
+						get: () => config.surface_color || defaultConfig.surface_color,
+						set: (value) => {
+							config.surface_color = value;
+							window.elementSdk.setConfig({surface_color: value});
+						}
+					},
+					{
+						get: () => config.text_color || defaultConfig.text_color,
+						set: (value) => {
+							config.text_color = value;
+							window.elementSdk.setConfig({text_color: value});
+						}
+					},
+					{
+						get: () => config.primary_action_color || defaultConfig.primary_action_color,
+						set: (value) => {
+							config.primary_action_color = value;
+							window.elementSdk.setConfig({primary_action_color: value});
+						}
+					},
+					{
+						get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
+						set: (value) => {
+							config.secondary_action_color = value;
+							window.elementSdk.setConfig({secondary_action_color: value});
+						}
+					}
+				],
+				borderables: [],
+				fontEditable: {
+					get: () => config.font_family || defaultConfig.font_family,
+					set: (value) => {
+						config.font_family = value;
+						window.elementSdk.setConfig({font_family: value});
+					}
+				},
+				fontSizeable: {
+					get: () => config.font_size || defaultConfig.font_size,
+					set: (value) => {
+						config.font_size = value;
+						window.elementSdk.setConfig({font_size: value});
+					}
+				}
+			};
+		}
+
+		function mapToEditPanelValues(config) {
+			return new Map([
+				["main_title", config.main_title || defaultConfig.main_title],
+				["subtitle", config.subtitle || defaultConfig.subtitle],
+				["output_label", config.output_label || defaultConfig.output_label],
+				["code_label", config.code_label || defaultConfig.code_label]
+			]);
+		}
+
+		if (window.elementSdk) {
+			window.elementSdk.init({
+				defaultConfig,
+				onConfigChange,
+				mapToCapabilities,
+				mapToEditPanelValues
+			});
+		}
+
+		function updateOutput() {
+			const outputDiv = document.getElementById("output");
+			outputDiv.classList.add('pulse-once');
+			setTimeout(() => outputDiv.classList.remove('pulse-once'), 400);
+
+			if (list.length === 0) {
+				outputDiv.innerHTML = '<div class="text-gray-500">ArrayList is empty</div>';
+			} else {
+				outputDiv.innerHTML = `<div class="text-cyan-400">${JSON.stringify(list, null, 2)}</div>`;
+			}
+
+			document.getElementById('listSize').textContent = list.length;
+			document.getElementById('listEmpty').textContent = list.length === 0 ? 'Yes' : 'No';
+		}
+
+		function updateCode(code) {
+			const codeDiv = document.getElementById("codeOutput");
+			codeDiv.classList.add('fade-in');
+			const formattedCode = code.trim().split('\n').map(line => line.trim()).filter(line => line.length > 0).join('\n');
+			codeDiv.innerHTML = `<div class="text-green-400">${formattedCode}</div>`;
+		}
+
+		function showInfo(message) {
+			const infoDiv = document.getElementById('infoMessage');
+			const infoText = document.getElementById('infoText');
+			infoText.textContent = message;
+			infoDiv.classList.remove('hidden');
+			infoDiv.classList.add('fade-in');
+			setTimeout(() => {
+				infoDiv.classList.add('hidden');
+			}, 3000);
+		}
+
+		function createList() {
+			const input = document.getElementById("inputCreate").value.trim();
+			if (input.length === 0) {
+				showInfo("Please enter some items to create the list.");
+				return;
+			}
+
+			let items = input.split(",");
+			list = items.map(i => i.trim()).filter(i => i.length > 0);
+			updateOutput();
+
+			updateCode(`ArrayList<String> list = new ArrayList<>();
+${list.map(item => `list.add("${item}");`).join('\n')}
+
+System.out.println(list);`);
+
+			showInfo(`Created ArrayList with ${list.length} items!`);
+			document.getElementById("inputCreate").value = '';
+		}
+
+		function addElement() {
+			let value = document.getElementById("inputAdd").value.trim();
+			if (value.length === 0) {
+				showInfo("Please enter a value to add.");
+				return;
+			}
+			list.push(value);
+			updateOutput();
+
+			updateCode(`
+list.add("${value}");
+
+System.out.println(list);
+`);
+
+			showInfo(`Added "${value}" to the end of the list!`);
+			document.getElementById("inputAdd").value = '';
+		}
+
+		function addAtIndex() {
+			let index = parseInt(document.getElementById("inputAddIndex").value);
+			let value = document.getElementById("inputAddIndexValue").value.trim();
+
+			if (isNaN(index) || value.length === 0) {
+				showInfo("Please enter both index and value.");
+				return;
+			}
+
+			if (index < 0 || index > list.length) {
+				showInfo(`Index must be between 0 and ${list.length}.`);
+				return;
+			}
+
+			list.splice(index, 0, value);
+			updateOutput();
+
+			updateCode(`
+list.add(${index}, "${value}");
+
+System.out.println(list);
+`);
+
+			showInfo(`Inserted "${value}" at index ${index}!`);
+			document.getElementById("inputAddIndex").value = '';
+			document.getElementById("inputAddIndexValue").value = '';
+		}
+
+		function removeIndex() {
+			let index = parseInt(document.getElementById("inputRemoveIndex").value);
+
+			if (isNaN(index)) {
+				showInfo("Please enter a valid index.");
+				return;
+			}
+
+			if (index < 0 || index >= list.length) {
+				showInfo(`Index must be between 0 and ${list.length - 1}.`);
+				return;
+			}
+
+			const removed = list[index];
+			list.splice(index, 1);
+			updateOutput();
+
+			updateCode(`
+list.remove(${index});
+
+System.out.println(list);
+`);
+
+			showInfo(`Removed "${removed}" from index ${index}!`);
+			document.getElementById("inputRemoveIndex").value = '';
+		}
+
+		function removeValue() {
+			let value = document.getElementById("inputRemoveValue").value.trim();
+
+			if (value.length === 0) {
+				showInfo("Please enter a value to remove.");
+				return;
+			}
+
+			let i = list.indexOf(value);
+			if (i === -1) {
+				showInfo(`Value "${value}" not found in the list.`);
+				return;
+			}
+
+			list.splice(i, 1);
+			updateOutput();
+
+			updateCode(`
+list.remove("${value}");
+
+System.out.println(list);
+`);
+
+			showInfo(`Removed "${value}" from the list!`);
+			document.getElementById("inputRemoveValue").value = '';
+		}
+
+		function updateValue() {
+			let index = parseInt(document.getElementById("inputUpdateIndex").value);
+			let value = document.getElementById("inputUpdateValue").value.trim();
+
+			if (isNaN(index) || value.length === 0) {
+				showInfo("Please enter both index and new value.");
+				return;
+			}
+
+			if (index < 0 || index >= list.length) {
+				showInfo(`Index must be between 0 and ${list.length - 1}.`);
+				return;
+			}
+
+			const oldValue = list[index];
+			list[index] = value;
+			updateOutput();
+
+			updateCode(`
+list.set(${index}, "${value}");
+
+System.out.println(list);
+`);
+
+			showInfo(`Updated index ${index} from "${oldValue}" to "${value}"!`);
+			document.getElementById("inputUpdateIndex").value = '';
+			document.getElementById("inputUpdateValue").value = '';
+		}
+
+		function getValue() {
+			let index = parseInt(document.getElementById("inputGetIndex").value);
+
+			if (isNaN(index)) {
+				showInfo("Please enter a valid index.");
+				return;
+			}
+
+			if (index < 0 || index >= list.length) {
+				showInfo(`Index must be between 0 and ${list.length - 1}.`);
+				return;
+			}
+
+			updateOutput();
+
+			updateCode(`
+String value = list.get(${index});
+
+System.out.println("Value at index ${index}: " + value);
+`);
+
+			showInfo(`Value at index ${index}: "${list[index]}"`);
+			document.getElementById("inputGetIndex").value = '';
+		}
+
+		function searchValue() {
+			let value = document.getElementById("inputSearch").value.trim();
+
+			if (value.length === 0) {
+				showInfo("Please enter a value to search.");
+				return;
+			}
+
+			let found = list.includes(value);
+			updateOutput();
+
+			updateCode(`
+if (list.contains("${value}")) {
+    System.out.println("Found: ${value}");
+} else {
+    System.out.println("Not found: ${value}");
+}
+`);
+
+			if (found) {
+				const index = list.indexOf(value);
+				showInfo(`Found "${value}" at index ${index}!`);
+			} else {
+				showInfo(`"${value}" not found in the list.`);
+			}
+			document.getElementById("inputSearch").value = '';
+		}
+
+		updateOutput();
+	</script>
+	<script>(function () {function c() {var b = a.contentDocument || a.contentWindow.document; if (b) {var d = b.createElement('script'); d.innerHTML = "window.__CF$cv$params={r:'9abd1ddee24c8b03',t:'MTc2NTM3MzYzNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);"; b.getElementsByTagName('head')[0].appendChild(d)} } if (document.body) {var a = document.createElement('iframe'); a.height = 1; a.width = 1; a.style.position = 'absolute'; a.style.top = 0; a.style.left = 0; a.style.border = 'none'; a.style.visibility = 'hidden'; document.body.appendChild(a); if ('loading' !== document.readyState) c(); else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c); else {var e = document.onreadystatechange || function () { }; document.onreadystatechange = function (b) {e(b); 'loading' !== document.readyState && (document.onreadystatechange = e, c())}} } })();</script>
+</body>
+
+</html>
