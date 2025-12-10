@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Vector Playground - Akash</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body{box-sizing:border-box}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+    .fade-in{animation:fadeIn .28s ease-out}
+    .pulse-once{animation:pulse .36s ease-out}
+    .code-output{font-family:'Courier New', monospace;line-height:1.5}
+    .glass-effect{background:rgba(255,255,255,0.95);backdrop-filter:blur(8px)}
+    .gradient-bg{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%)}
+    .operation-card{transition:all .22s ease}
+    .operation-card:hover{transform:translateY(-4px);box-shadow:0 10px 30px rgba(102,126,234,.22)}
+    input[type="text"],input[type="number"]{outline:none}
+    .small-btn{padding:.5rem .75rem;border-radius:.5rem}
+    .mono{font-family:'Courier New',monospace}
+    .icon{font-weight:700}
+  </style>
+</head>
+<body class="h-full">
+  <div class="min-h-full w-full gradient-bg overflow-auto">
+    <div class="max-w-7xl mx-auto px-6 py-8">
+      <!-- Header -->
+      <div class="text-center mb-8 fade-in">
+        <h1 class="text-4xl lg:text-5xl font-extrabold text-white mb-2" style="text-shadow:2px 2px 6px rgba(0,0,0,0.25)">Vector Playground</h1>
+        <p class="text-lg lg:text-xl text-white/90">Interactive Vector (Core Java) — Simple 10 operations</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+        <!-- LEFT: Operations -->
+        <div class="space-y-4">
+
+          <!-- Create -->
+          <div class="glass-effect rounded-2xl p-6 operation-card">
+            <h2 class="text-2xl font-bold text-purple-700 mb-3 flex items-center gap-2"><span class="icon">✨</span> Create Vector</h2>
+            <input id="createInput" type="text" placeholder="Enter items separated by commas (e.g. A,B,C)" class="w-full px-4 py-3 border-2 border-purple-200 rounded-lg focus:border-purple-400">
+            <div class="mt-3 grid grid-cols-2 gap-3">
+              <button onclick="createVec()" class="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 rounded-lg">Create</button>
+              <button onclick="clearVec()" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-3 rounded-lg">Clear</button>
+            </div>
+          </div>
+
+          <!-- Add operations -->
+          <div class="glass-effect rounded-2xl p-6 operation-card">
+            <h2 class="text-2xl font-bold text-blue-700 mb-3 flex items-center gap-2"><span class="icon">➕</span> Add</h2>
+            <div class="grid gap-3">
+              <div class="flex gap-3">
+                <input id="addVal" type="text" placeholder="Value to add" class="flex-1 px-3 py-2 border-2 border-blue-200 rounded-lg">
+                <button onclick="addElement()" class="bg-blue-600 hover:bg-blue-700 text-white small-btn">add(e)</button>
+              </div>
+              <div class="flex gap-3 items-center">
+                <input id="addIdx" type="number" placeholder="Index" class="w-1/4 px-3 py-2 border-2 border-emerald-200 rounded-lg">
+                <input id="addIdxVal" type="text" placeholder="Value to insert" class="flex-1 px-3 py-2 border-2 border-emerald-200 rounded-lg">
+                <button onclick="addAtIndex()" class="bg-emerald-600 hover:bg-emerald-700 text-white small-btn">add(index,e)</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Remove -->
+          <div class="glass-effect rounded-2xl p-6 operation-card">
+            <h2 class="text-2xl font-bold text-red-700 mb-3 flex items-center gap-2"><span class="icon">🗑️</span> Remove</h2>
+            <div class="grid gap-3">
+              <div class="flex gap-3 items-center">
+                <input id="remIdx" type="number" placeholder="Index to remove" class="w-1/3 px-3 py-2 border-2 border-red-200 rounded-lg">
+                <button onclick="removeAtIndex()" class="bg-red-500 hover:bg-red-600 text-white small-btn">remove(index)</button>
+              </div>
+              <div class="flex gap-3 items-center">
+                <input id="remVal" type="text" placeholder="Value to remove" class="flex-1 px-3 py-2 border-2 border-red-200 rounded-lg">
+                <button onclick="removeByValue()" class="bg-red-500 hover:bg-red-600 text-white small-btn">remove(value)</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Update / Get / Search -->
+          <div class="glass-effect rounded-2xl p-6 operation-card">
+            <h2 class="text-2xl font-bold text-amber-700 mb-3 flex items-center gap-2"><span class="icon">⚙️</span> Update / Get / Search</h2>
+            <div class="grid gap-3">
+              <div class="flex gap-3">
+                <input id="setIdx" type="number" placeholder="Index" class="w-1/4 px-3 py-2 border-2 border-amber-200 rounded-lg">
+                <input id="setVal" type="text" placeholder="New value" class="flex-1 px-3 py-2 border-2 border-amber-200 rounded-lg">
+                <button onclick="updateAtIndex()" class="bg-amber-600 hover:bg-amber-700 text-white small-btn">set(index,val)</button>
+              </div>
+              <div class="flex gap-3">
+                <input id="getIdx" type="number" placeholder="Index to get" class="w-1/3 px-3 py-2 border-2 border-green-200 rounded-lg">
+                <button onclick="getAtIndex()" class="bg-green-600 hover:bg-green-700 text-white small-btn">get(index)</button>
+              </div>
+              <div class="flex gap-3">
+                <input id="searchVal" type="text" placeholder="Value to search" class="flex-1 px-3 py-2 border-2 border-emerald-200 rounded-lg">
+                <button onclick="containsVal()" class="bg-emerald-600 hover:bg-emerald-700 text-white small-btn">contains()</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Iteration -->
+          <div class="glass-effect rounded-2xl p-6 operation-card">
+            <h2 class="text-2xl font-bold text-pink-700 mb-3 flex items-center gap-2"><span class="icon">🔁</span> Iterate</h2>
+            <div class="grid lg:grid-cols-2 gap-3">
+              <button onclick="iterateFor()" class="bg-pink-600 hover:bg-pink-700 text-white py-3 rounded-lg">for loop</button>
+              <button onclick="iterateForEach()" class="bg-pink-600 hover:bg-pink-700 text-white py-3 rounded-lg">for-each</button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT: Output & Code & Notes -->
+        <div class="space-y-4">
+
+          <!-- Current Vector -->
+          <div class="glass-effect rounded-2xl p-6 shadow-xl">
+            <h2 class="text-2xl font-bold text-purple-700 mb-3 flex items-center gap-2"><span class="icon">📋</span> Current Vector</h2>
+            <div id="output" class="bg-gradient-to-br from-gray-900 to-gray-800 text-cyan-400 p-6 rounded-lg min-h-[180px] code-output shadow-inner border-2 border-gray-700 overflow-auto">
+              <div class="text-gray-500">Your Vector will appear here...</div>
+            </div>
+            <div class="mt-3 flex items-center gap-4 text-sm text-gray-600">
+              <span class="font-semibold">Size: <span id="vecSize" class="text-purple-600 text-lg">0</span></span>
+              <span class="font-semibold">Empty: <span id="vecEmpty" class="text-purple-600 text-lg">Yes</span></span>
+            </div>
+          </div>
+
+          <!-- Java Code -->
+          <div class="glass-effect rounded-2xl p-6 shadow-xl">
+            <h2 class="text-2xl font-bold text-indigo-700 mb-3 flex items-center gap-2"><span class="icon">💻</span> Java Code</h2>
+            <div id="codeOutput" class="bg-gradient-to-br from-gray-900 to-gray-800 text-green-400 p-6 rounded-lg min-h-[200px] code-output shadow-inner overflow-x-auto border-2 border-gray-700">
+              <div class="text-gray-500">Java code will appear here...</div>
+            </div>
+          </div>
+
+          <!-- Notes (NEW) -->
+          <div id="notesOutput" class="glass-effect rounded-2xl p-6 shadow-xl">
+            <h2 class="text-2xl font-bold text-indigo-700 mb-3 flex items-center gap-2"><span class="icon">📝</span> Notes</h2>
+            <div id="notesContent" class="min-h-[120px] text-gray-700 mono">
+              Operation notes will appear here...
+            </div>
+          </div>
+
+          <!-- Info Message -->
+          <div id="infoMessage" class="hidden glass-effect rounded-2xl p-4 shadow-xl">
+            <div class="flex items-start gap-3"><span class="text-2xl">💡</span>
+              <p id="infoText" class="text-gray-700 flex-1"></p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Simulated Vector as JS array
+    let vec = [];
+
+    // UI helpers
+    function updateOutput() {
+      const out = document.getElementById('output');
+      out.classList.add('pulse-once');
+      setTimeout(()=>out.classList.remove('pulse-once'),360);
+      if(vec.length===0) out.innerHTML = '<div class="text-gray-500">Vector is empty</div>';
+      else out.innerHTML = `<div class="text-cyan-400 mono">${JSON.stringify(vec, null, 2)}</div>`;
+      document.getElementById('vecSize').textContent = vec.length;
+      document.getElementById('vecEmpty').textContent = vec.length===0? 'Yes':'No';
+    }
+
+    function updateCode(code){
+      const codeDiv=document.getElementById('codeOutput');
+      codeDiv.classList.add('fade-in');
+      setTimeout(()=>codeDiv.classList.remove('fade-in'),300);
+      const formatted = code.trim().split('\n').map(l=>l.trim()).filter(l=>l.length>0).join('\n');
+      codeDiv.innerHTML = `<div class="text-green-400 mono">${formatted.replace(/</g,'&lt;')}</div>`;
+    }
+
+    function updateNotes(text){
+      const notesDiv = document.getElementById('notesContent');
+      notesDiv.classList.add('fade-in');
+      const cleaned = text.trim().split('\n').map(l=>l.trim()).filter(l=>l.length>0).join('<br>');
+      notesDiv.innerHTML = `<div class="mono">${cleaned}</div>`;
+      setTimeout(()=>notesDiv.classList.remove('fade-in'),300);
+    }
+
+    function showInfo(msg){
+      const info = document.getElementById('infoMessage');
+      const t = document.getElementById('infoText');
+      t.textContent = msg;
+      info.classList.remove('hidden');
+      info.classList.add('fade-in');
+      setTimeout(()=>info.classList.add('hidden'),3000);
+    }
+
+    // Operations (10 essentials) with notes
+
+    function createVec(){
+      const raw = document.getElementById('createInput').value.trim();
+      if(!raw){ showInfo('Enter items to create vector'); return;}
+      const items = raw.split(',').map(s=>s.trim()).filter(s=>s.length>0);
+      vec = [...items];
+      updateOutput();
+      updateCode(`Vector<String> v = new Vector<>();\n${vec.map(i=>`v.add("${i}");`).join('\n')}\nSystem.out.println(v);`);
+      updateNotes(`Operation: create()\nExplanation: Creates a Vector and adds initial elements.\nUsed When: You want a thread-safe growable array (legacy). Example: v.add("A");`);
+      showInfo(`Created Vector with ${vec.length} items`);
+      document.getElementById('createInput').value='';
+    }
+
+    function clearVec(){
+      vec = [];
+      updateOutput();
+      updateCode(`v.clear();\nSystem.out.println(v);`);
+      updateNotes(`Operation: clear()\nExplanation: Removes all elements from the Vector.\nUsed When: Resetting state or freeing contents.`);
+      showInfo('Vector cleared');
+    }
+
+    function addElement(){
+      const v = document.getElementById('addVal').value.trim();
+      if(!v){ showInfo('Enter value to add'); return;}
+      vec.push(v);
+      updateOutput();
+      updateCode(`v.add("${v}");\nSystem.out.println(v);`);
+      updateNotes(`Operation: add(element)\nExplanation: Appends the element at the end of the Vector.\nUsed When: You need dynamic resizing and thread-safe legacy collection.`);
+      showInfo(`Added "${v}"`);
+      document.getElementById('addVal').value='';
+    }
+
+    function addAtIndex(){
+      const idx = parseInt(document.getElementById('addIdx').value);
+      const v = document.getElementById('addIdxVal').value.trim();
+      if(isNaN(idx) || v.length===0){ showInfo('Enter valid index & value'); return;}
+      if(idx<0 || idx>vec.length){ showInfo(`Index must be 0..${vec.length}`); return;}
+      vec.splice(idx,0,v);
+      updateOutput();
+      updateCode(`v.add(${idx}, "${v}");\nSystem.out.println(v);`);
+      updateNotes(`Operation: add(index, element)\nExplanation: Inserts element at given index; shifts subsequent elements.\nUsed When: You must place item at a specific position.`);
+      showInfo(`Inserted "${v}" at ${idx}`);
+      document.getElementById('addIdx').value=''; document.getElementById('addIdxVal').value='';
+    }
+
+    function removeAtIndex(){
+      const idx = parseInt(document.getElementById('remIdx').value);
+      if(isNaN(idx)){ showInfo('Enter index'); return;}
+      if(idx<0 || idx>=vec.length){ showInfo(`Index must be 0..${vec.length-1}`); return;}
+      const removed = vec.splice(idx,1)[0];
+      updateOutput();
+      updateCode(`v.remove(${idx});\nSystem.out.println(v);`);
+      updateNotes(`Operation: remove(index)\nExplanation: Removes element at index and shifts elements left.\nUsed When: You know position to remove; costly for large vectors at middle.`);
+      showInfo(`Removed "${removed}" at ${idx}`);
+      document.getElementById('remIdx').value='';
+    }
+
+    function removeByValue(){
+      const v = document.getElementById('remVal').value.trim();
+      if(!v){ showInfo('Enter value'); return;}
+      const idx = vec.indexOf(v);
+      if(idx===-1){ showInfo(`"${v}" not found`); return;}
+      vec.splice(idx,1);
+      updateOutput();
+      updateCode(`v.remove("${v}");\nSystem.out.println(v);`);
+      updateNotes(`Operation: remove(value)\nExplanation: Removes first occurrence of value from Vector.\nUsed When: You want to remove by element, not index.`);
+      showInfo(`Removed "${v}"`);
+      document.getElementById('remVal').value='';
+    }
+
+    function updateAtIndex(){
+      const idx = parseInt(document.getElementById('setIdx').value);
+      const v = document.getElementById('setVal').value.trim();
+      if(isNaN(idx) || v.length===0){ showInfo('Enter index & value'); return;}
+      if(idx<0 || idx>=vec.length){ showInfo(`Index must be 0..${vec.length-1}`); return;}
+      const old = vec[idx];
+      vec[idx]=v;
+      updateOutput();
+      updateCode(`v.set(${idx}, "${v}");\nSystem.out.println(v);`);
+      updateNotes(`Operation: set(index, value)\nExplanation: Replaces element at index with new value.\nUsed When: You need to update value at known position.`);
+      showInfo(`Updated index ${idx}: "${old}" -> "${v}"`);
+      document.getElementById('setIdx').value=''; document.getElementById('setVal').value='';
+    }
+
+    function getAtIndex(){
+      const idx = parseInt(document.getElementById('getIdx').value);
+      if(isNaN(idx)){ showInfo('Enter index'); return;}
+      if(idx<0 || idx>=vec.length){ showInfo(`Index must be 0..${vec.length-1}`); return;}
+      updateOutput();
+      updateCode(`String s = v.get(${idx});\nSystem.out.println(s);`);
+      updateNotes(`Operation: get(index)\nExplanation: Returns element at the given index (O(1)).\nUsed When: Fast random access is required.`);
+      showInfo(`Value at ${idx}: "${vec[idx]}"`);
+      document.getElementById('getIdx').value='';
+    }
+
+    function containsVal(){
+      const v = document.getElementById('searchVal').value.trim();
+      if(!v){ showInfo('Enter value to search'); return;}
+      const found = vec.includes(v);
+      updateOutput();
+      updateCode(`boolean f = v.contains("${v}");\nSystem.out.println(f);`);
+      updateNotes(`Operation: contains(value)\nExplanation: Checks if the Vector contains the element.\nUsed When: You need to verify presence before actions.`);
+      showInfo(found ? `Found "${v}" at ${vec.indexOf(v)}` : `"${v}" not found`);
+      document.getElementById('searchVal').value='';
+    }
+
+    function iterateFor(){
+      let s='';
+      for(let i=0;i<vec.length;i++){ s+=vec[i]+'\\n'; }
+      updateOutput();
+      updateCode(`for (int i = 0; i < v.size(); i++) {\n  System.out.println(v.get(i));\n}`);
+      updateNotes(`Operation: for-loop\nExplanation: Index-based traversal of Vector (fast random access).\nUsed When: You need index access during iteration.`);
+      showInfo('Iterated with for loop (check code/output)');
+    }
+
+    function iterateForEach(){
+      updateOutput();
+      updateCode(`for (String x : v) {\n  System.out.println(x);\n}`);
+      updateNotes(`Operation: for-each\nExplanation: Simple element-wise traversal using enhanced for-loop.\nUsed When: Cleaner iteration without index.`);
+      showInfo('Iterated with for-each');
+    }
+
+    // Init
+    updateOutput();
+    updateCode(`// Ready — use controls to operate on the simulated Vector.`);
+    updateNotes(`Notes: Perform any operation to see specific explanation appear here.`);
+  </script>
+
+</body>
+</html>

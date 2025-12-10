@@ -1,0 +1,644 @@
+<!doctype html>
+<html lang="en" class="h-full">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<title>LinkedList Master Playground - Akash</title>
+	<script src="https://cdn.tailwindcss.com"></script>
+	<style>
+		body {
+			box-sizing: border-box
+		}
+
+		@keyframes fadeIn {
+			from {
+				opacity: 0;
+				transform: translateY(6px)
+			}
+
+			to {
+				opacity: 1;
+				transform: translateY(0)
+			}
+		}
+
+		@keyframes pulse {
+
+			0%,
+			100% {
+				transform: scale(1)
+			}
+
+			50% {
+				transform: scale(1.04)
+			}
+		}
+
+		.fade-in {
+			animation: fadeIn .28s ease-out
+		}
+
+		.pulse-once {
+			animation: pulse .36s ease-out
+		}
+
+		.code-output {
+			font-family: 'Courier New', monospace;
+			line-height: 1.5
+		}
+
+		.glass-effect {
+			background: rgba(255, 255, 255, 0.95);
+			backdrop-filter: blur(8px)
+		}
+
+		.gradient-bg {
+			background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)
+		}
+
+		.operation-card {
+			transition: all .22s ease
+		}
+
+		.operation-card:hover {
+			transform: translateY(-4px);
+			box-shadow: 0 10px 30px rgba(102, 126, 234, .22)
+		}
+
+		input[type="text"],
+		input[type="number"] {
+			outline: none
+		}
+
+		.small-btn {
+			padding: .5rem .75rem;
+			border-radius: .5rem
+		}
+
+		.mono {
+			font-family: 'Courier New', monospace
+		}
+
+		.icon {
+			font-weight: 700
+		}
+	</style>
+</head>
+
+<body class="h-full">
+	<div class="min-h-full w-full gradient-bg overflow-auto">
+		<div class="max-w-7xl mx-auto px-6 py-8">
+			<!-- Header -->
+			<div class="text-center mb-8 fade-in">
+				<h1 id="mainTitle" class="text-4xl lg:text-5xl font-extrabold text-white mb-2"
+					style="text-shadow:2px 2px 6px rgba(0,0,0,0.25)">LinkedList Master Playground</h1>
+				<p id="subtitle" class="text-lg lg:text-xl text-white/90">Interactive LinkedList (Deque/Queue)
+					Masterclass — All operations visualized</p>
+			</div>
+
+			<!-- Grid -->
+			<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+				<!-- LEFT: Operations -->
+				<div class="space-y-4">
+
+					<!-- Create -->
+					<div class="glass-effect rounded-2xl p-6 operation-card">
+						<h2 class="text-2xl font-bold text-purple-700 mb-3 flex items-center gap-2"><span
+								class="icon">✨</span> Create LinkedList</h2>
+						<input id="createInput" type="text" placeholder="Enter items separated by commas (e.g. A,B,C)"
+							class="w-full px-4 py-3 border-2 border-purple-200 rounded-lg focus:border-purple-400">
+						<div class="mt-3 grid grid-cols-2 gap-3">
+							<button onclick="createList()"
+								class="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 rounded-lg">Create</button>
+							<button onclick="clearList()"
+								class="bg-red-500 hover:bg-red-600 text-white font-semibold py-3 rounded-lg">Clear</button>
+						</div>
+					</div>
+
+					<!-- Add First / Last / At Index -->
+					<div class="glass-effect rounded-2xl p-6 operation-card">
+						<h2 class="text-2xl font-bold text-blue-700 mb-3 flex items-center gap-2"><span
+								class="icon">➕</span> Add / Insert</h2>
+						<div class="grid grid-cols-1 gap-3">
+							<div class="flex gap-3">
+								<input id="addFirstInput" type="text" placeholder="Value to addFirst"
+									class="flex-1 px-3 py-2 border-2 border-blue-200 rounded-lg">
+								<button onclick="addFirst()"
+									class="bg-blue-600 hover:bg-blue-700 text-white small-btn">addFirst()</button>
+							</div>
+							<div class="flex gap-3">
+								<input id="addLastInput" type="text" placeholder="Value to addLast"
+									class="flex-1 px-3 py-2 border-2 border-blue-200 rounded-lg">
+								<button onclick="addLast()"
+									class="bg-sky-600 hover:bg-sky-700 text-white small-btn">addLast()</button>
+							</div>
+							<div class="flex gap-3 items-center">
+								<input id="addIndexIdx" type="number" placeholder="Index"
+									class="w-1/4 px-3 py-2 border-2 border-emerald-200 rounded-lg">
+								<input id="addIndexVal" type="text" placeholder="Value to insert"
+									class="flex-1 px-3 py-2 border-2 border-emerald-200 rounded-lg">
+								<button onclick="addAtIndex()"
+									class="bg-emerald-600 hover:bg-emerald-700 text-white small-btn">add(index,val)</button>
+							</div>
+							<div class="grid lg:grid-cols-2 gap-3">
+								<div class="flex gap-3">
+									<input id="offerVal" type="text" placeholder="Value for offer()"
+										class="flex-1 px-3 py-2 border-2 border-indigo-200 rounded-lg">
+									<button onclick="offer()"
+										class="bg-indigo-600 hover:bg-indigo-700 text-white small-btn">offer()</button>
+								</div>
+								<div class="flex gap-3">
+									<input id="offerFirstVal" type="text" placeholder="Value for offerFirst()"
+										class="flex-1 px-3 py-2 border-2 border-indigo-200 rounded-lg">
+									<button onclick="offerFirst()"
+										class="bg-indigo-600 hover:bg-indigo-700 text-white small-btn">offerFirst()</button>
+								</div>
+							</div>
+							<div class="flex gap-3">
+								<input id="offerLastVal" type="text" placeholder="Value for offerLast()"
+									class="flex-1 px-3 py-2 border-2 border-indigo-200 rounded-lg">
+								<button onclick="offerLast()"
+									class="bg-indigo-600 hover:bg-indigo-700 text-white small-btn">offerLast()</button>
+							</div>
+						</div>
+					</div>
+
+					<!-- Remove: first/last/index/value/poll/pop -->
+					<div class="glass-effect rounded-2xl p-6 operation-card">
+						<h2 class="text-2xl font-bold text-red-700 mb-3 flex items-center gap-2"><span
+								class="icon">🗑️</span> Remove / Poll / Pop</h2>
+						<div class="grid gap-3">
+							<div class="flex gap-3">
+								<button onclick="removeFirst()"
+									class="bg-red-600 hover:bg-red-700 text-white py-3 rounded-lg flex-1">removeFirst()</button>
+								<button onclick="removeLast()"
+									class="bg-red-600 hover:bg-red-700 text-white py-3 rounded-lg flex-1">removeLast()</button>
+							</div>
+							<div class="flex gap-3">
+								<input id="removeIdxVal" type="number" placeholder="Index to remove"
+									class="w-1/3 px-3 py-2 border-2 border-red-200 rounded-lg">
+								<button onclick="removeAtIndex()"
+									class="bg-red-500 hover:bg-red-600 text-white small-btn">remove(index)</button>
+								<input id="removeByValueVal" type="text" placeholder="Value to remove"
+									class="flex-1 px-3 py-2 border-2 border-red-200 rounded-lg">
+								<button onclick="removeByValue()"
+									class="bg-red-500 hover:bg-red-600 text-white small-btn">remove(value)</button>
+							</div>
+							<div class="grid lg:grid-cols-3 gap-3">
+								<button onclick="poll()"
+									class="bg-rose-600 hover:bg-rose-700 text-white py-3 rounded-lg">poll()</button>
+								<button onclick="pollFirst()"
+									class="bg-rose-600 hover:bg-rose-700 text-white py-3 rounded-lg">pollFirst()</button>
+								<button onclick="pollLast()"
+									class="bg-rose-600 hover:bg-rose-700 text-white py-3 rounded-lg">pollLast()</button>
+							</div>
+							<div class="grid lg:grid-cols-2 gap-3">
+								<button onclick="pushVal()"
+									class="bg-fuchsia-600 hover:bg-fuchsia-700 text-white py-3 rounded-lg">push()</button>
+								<button onclick="popVal()"
+									class="bg-fuchsia-600 hover:bg-fuchsia-700 text-white py-3 rounded-lg">pop()</button>
+							</div>
+						</div>
+					</div>
+
+					<!-- Update / Get / Search / Utility -->
+					<div class="glass-effect rounded-2xl p-6 operation-card">
+						<h2 class="text-2xl font-bold text-amber-700 mb-3 flex items-center gap-2"><span
+								class="icon">⚙️</span> Update / Get / Search / Util</h2>
+						<div class="grid gap-3">
+							<div class="flex gap-3">
+								<input id="updateIdx" type="number" placeholder="Index"
+									class="w-1/4 px-3 py-2 border-2 border-amber-200 rounded-lg">
+								<input id="updateVal" type="text" placeholder="New value"
+									class="flex-1 px-3 py-2 border-2 border-amber-200 rounded-lg">
+								<button onclick="updateAtIndex()"
+									class="bg-amber-600 hover:bg-amber-700 text-white small-btn">set(index,val)</button>
+							</div>
+							<div class="flex gap-3">
+								<input id="getIdx" type="number" placeholder="Index to get"
+									class="w-1/3 px-3 py-2 border-2 border-green-200 rounded-lg">
+								<button onclick="getAtIndex()"
+									class="bg-green-600 hover:bg-green-700 text-white small-btn">get(index)</button>
+								<button onclick="getFirst()"
+									class="bg-green-500 hover:bg-green-600 text-white small-btn">getFirst()</button>
+								<button onclick="getLast()"
+									class="bg-green-500 hover:bg-green-600 text-white small-btn">getLast()</button>
+							</div>
+							<div class="flex gap-3">
+								<input id="searchVal" type="text" placeholder="Value to search"
+									class="flex-1 px-3 py-2 border-2 border-emerald-200 rounded-lg">
+								<button onclick="containsVal()"
+									class="bg-emerald-600 hover:bg-emerald-700 text-white small-btn">contains()</button>
+								<button onclick="indexOfVal()"
+									class="bg-emerald-600 hover:bg-emerald-700 text-white small-btn">indexOf()</button>
+								<button onclick="lastIndexOfVal()"
+									class="bg-emerald-600 hover:bg-emerald-700 text-white small-btn">lastIndexOf()</button>
+							</div>
+							<div class="grid lg:grid-cols-3 gap-3">
+								<button onclick="sizeOf()"
+									class="bg-slate-600 hover:bg-slate-700 text-white py-2 rounded-lg">size()</button>
+								<button onclick="isEmpty()"
+									class="bg-slate-600 hover:bg-slate-700 text-white py-2 rounded-lg">isEmpty()</button>
+								<button onclick="toArrayOp()"
+									class="bg-slate-600 hover:bg-slate-700 text-white py-2 rounded-lg">toArray()</button>
+							</div>
+							<div class="grid lg:grid-cols-2 gap-3">
+								<button onclick="cloneOp()"
+									class="bg-indigo-500 hover:bg-indigo-600 text-white py-2 rounded-lg">clone()</button>
+								<button onclick="clearList()"
+									class="bg-red-400 hover:bg-red-500 text-white py-2 rounded-lg">clear()</button>
+							</div>
+						</div>
+					</div>
+
+					<!-- Iteration -->
+					<div class="glass-effect rounded-2xl p-6 operation-card">
+						<h2 class="text-2xl font-bold text-pink-700 mb-3 flex items-center gap-2"><span
+								class="icon">🔁</span> Iteration</h2>
+						<div class="grid lg:grid-cols-2 gap-3">
+							<button onclick="iterateFor()"
+								class="bg-pink-600 hover:bg-pink-700 text-white py-3 rounded-lg">for loop</button>
+							<button onclick="iterateForEach()"
+								class="bg-pink-600 hover:bg-pink-700 text-white py-3 rounded-lg">for-each</button>
+							<button onclick="iteratorOp()"
+								class="bg-pink-500 hover:bg-pink-600 text-white py-3 rounded-lg">iterator()</button>
+							<button onclick="descendingIteratorOp()"
+								class="bg-pink-500 hover:bg-pink-600 text-white py-3 rounded-lg">descendingIterator()</button>
+						</div>
+					</div>
+
+				</div>
+
+				<!-- RIGHT: Output & Code -->
+				<div class="space-y-4">
+
+					<!-- Current List -->
+					<div class="glass-effect rounded-2xl p-6 shadow-xl">
+						<h2 id="outputLabel" class="text-2xl font-bold text-purple-700 mb-3 flex items-center gap-2">
+							<span class="icon">📋</span> Current List</h2>
+						<div id="output"
+							class="bg-gradient-to-br from-gray-900 to-gray-800 text-cyan-400 p-6 rounded-lg min-h-[220px] code-output shadow-inner border-2 border-gray-700 overflow-auto">
+							<div class="text-gray-500">Your LinkedList will appear here...</div>
+						</div>
+						<div class="mt-3 flex items-center gap-4 text-sm text-gray-600">
+							<span class="font-semibold">Size: <span id="listSize"
+									class="text-purple-600 text-lg">0</span></span>
+							<span class="font-semibold">Empty: <span id="listEmpty"
+									class="text-purple-600 text-lg">Yes</span></span>
+						</div>
+					</div>
+
+					<!-- Java Code Output -->
+					<div class="glass-effect rounded-2xl p-6 shadow-xl">
+						<h2 id="codeLabel" class="text-2xl font-bold text-indigo-700 mb-3 flex items-center gap-2"><span
+								class="icon">💻</span> Java Code</h2>
+						<div id="codeOutput"
+							class="bg-gradient-to-br from-gray-900 to-gray-800 text-green-400 p-6 rounded-lg min-h-[300px] code-output shadow-inner overflow-x-auto border-2 border-gray-700">
+							<div class="text-gray-500">Java code will appear here...</div>
+						</div>
+					</div>
+
+					<!-- Info Message -->
+					<div id="infoMessage" class="hidden glass-effect rounded-2xl p-4 shadow-xl">
+						<div class="flex items-start gap-3"><span class="text-2xl">💡</span>
+							<p id="infoText" class="text-gray-700 flex-1"></p>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		// Simulated LinkedList as JS array
+		let ll = [];
+
+		// Helpers: UI updates
+		function updateOutput() {
+			const outputDiv = document.getElementById("output");
+			outputDiv.classList.add('pulse-once');
+			setTimeout(() => outputDiv.classList.remove('pulse-once'), 360);
+
+			if (ll.length === 0) {
+				outputDiv.innerHTML = '<div class="text-gray-500">LinkedList is empty</div>';
+			} else {
+				outputDiv.innerHTML = `<div class="text-cyan-400 mono">${JSON.stringify(ll, null, 2)}</div>`;
+			}
+			document.getElementById('listSize').textContent = ll.length;
+			document.getElementById('listEmpty').textContent = ll.length === 0 ? 'Yes' : 'No';
+		}
+
+		function updateCode(code) {
+			const codeDiv = document.getElementById("codeOutput");
+			codeDiv.classList.add('fade-in');
+			setTimeout(() => codeDiv.classList.remove('fade-in'), 300);
+			const formatted = code.trim().split('\n').map(line => line.trim()).filter(l => l.length > 0).join('\n');
+			codeDiv.innerHTML = `<div class="text-green-400 mono">${formatted.replace(/</g, '&lt;')}</div>`;
+		}
+
+		function showInfo(msg) {
+			const infoDiv = document.getElementById('infoMessage');
+			const infoText = document.getElementById('infoText');
+			infoText.textContent = msg;
+			infoDiv.classList.remove('hidden');
+			infoDiv.classList.add('fade-in');
+			setTimeout(() => infoDiv.classList.add('hidden'), 3000);
+		}
+
+		// Operation implementations (ALL 35+)
+		function createList() {
+			const raw = document.getElementById('createInput').value.trim();
+			if (!raw) {showInfo('Please enter items to create the list.'); return;}
+			const items = raw.split(',').map(s => s.trim()).filter(s => s.length > 0);
+			ll = [...items];
+			updateOutput();
+			updateCode(`LinkedList<String> list = new LinkedList<>();\n${ll.map(i => `list.add("${i}");`).join('\n')}\n\nSystem.out.println(list);`);
+			showInfo(`Created LinkedList with ${ll.length} items.`);
+			document.getElementById('createInput').value = '';
+		}
+
+		function clearList() {
+			ll = [];
+			updateOutput();
+			updateCode(`list.clear();\nSystem.out.println(list);`);
+			showInfo('List cleared.');
+		}
+
+		// Add operations
+		function addFirst() {
+			const v = document.getElementById('addFirstInput').value.trim();
+			if (!v) {showInfo('Enter value to addFirst.'); return;}
+			ll.unshift(v);
+			updateOutput();
+			updateCode(`list.addFirst("${v}");\nSystem.out.println(list);`);
+			showInfo(`Added "${v}" at first.`);
+			document.getElementById('addFirstInput').value = '';
+		}
+
+		function addLast() {
+			const v = document.getElementById('addLastInput').value.trim();
+			if (!v) {showInfo('Enter value to addLast.'); return;}
+			ll.push(v);
+			updateOutput();
+			updateCode(`list.addLast("${v}");\n// or list.add("${v}");\nSystem.out.println(list);`);
+			showInfo(`Added "${v}" at last.`);
+			document.getElementById('addLastInput').value = '';
+		}
+
+		function addAtIndex() {
+			const idx = parseInt(document.getElementById('addIndexIdx').value);
+			const v = document.getElementById('addIndexVal').value.trim();
+			if (isNaN(idx) || v.length === 0) {showInfo('Enter valid index and value.'); return;}
+			if (idx < 0 || idx > ll.length) {showInfo(`Index must be 0..${ll.length}`); return;}
+			ll.splice(idx, 0, v);
+			updateOutput();
+			updateCode(`list.add(${idx}, "${v}");\nSystem.out.println(list);`);
+			showInfo(`Inserted "${v}" at index ${idx}.`);
+			document.getElementById('addIndexIdx').value = ''; document.getElementById('addIndexVal').value = '';
+		}
+
+		function offer() {
+			const v = document.getElementById('offerVal').value.trim();
+			if (!v) {showInfo('Enter value for offer().'); return;}
+			ll.push(v);
+			updateOutput();
+			updateCode(`boolean offered = list.offer("${v}");\nSystem.out.println(list);`);
+			showInfo(`Offered "${v}" to tail.`);
+			document.getElementById('offerVal').value = '';
+		}
+
+		function offerFirst() {
+			const v = document.getElementById('offerFirstVal').value.trim();
+			if (!v) {showInfo('Enter value for offerFirst().'); return;}
+			ll.unshift(v);
+			updateOutput();
+			updateCode(`boolean offered = list.offerFirst("${v}");\nSystem.out.println(list);`);
+			showInfo(`Offered "${v}" to head.`);
+			document.getElementById('offerFirstVal').value = '';
+		}
+
+		function offerLast() {
+			const v = document.getElementById('offerLastVal').value.trim();
+			if (!v) {showInfo('Enter value for offerLast().'); return;}
+			ll.push(v);
+			updateOutput();
+			updateCode(`boolean offered = list.offerLast("${v}");\nSystem.out.println(list);`);
+			showInfo(`Offered "${v}" to tail.`);
+			document.getElementById('offerLastVal').value = '';
+		}
+
+		// Remove operations
+		function removeFirst() {
+			if (ll.length === 0) {showInfo('List is empty.'); return;}
+			const removed = ll.shift();
+			updateOutput();
+			updateCode(`String removed = list.removeFirst();\nSystem.out.println("Removed: " + removed);\nSystem.out.println(list);`);
+			showInfo(`Removed first: "${removed}"`);
+		}
+
+		function removeLast() {
+			if (ll.length === 0) {showInfo('List is empty.'); return;}
+			const removed = ll.pop();
+			updateOutput();
+			updateCode(`String removed = list.removeLast();\nSystem.out.println("Removed: " + removed);\nSystem.out.println(list);`);
+			showInfo(`Removed last: "${removed}"`);
+		}
+
+		function removeAtIndex() {
+			const idx = parseInt(document.getElementById('removeIdxVal').value);
+			if (isNaN(idx)) {showInfo('Enter valid index'); return;}
+			if (idx < 0 || idx >= ll.length) {showInfo(`Index must be 0..${ll.length - 1}`); return;}
+			const removed = ll.splice(idx, 1)[0];
+			updateOutput();
+			updateCode(`String removed = list.remove(${idx});\nSystem.out.println("Removed: " + removed);\nSystem.out.println(list);`);
+			showInfo(`Removed "${removed}" at index ${idx}.`);
+			document.getElementById('removeIdxVal').value = '';
+		}
+
+		function removeByValue() {
+			const v = document.getElementById('removeByValueVal').value.trim();
+			if (!v) {showInfo('Enter value'); return;}
+			const idx = ll.indexOf(v);
+			if (idx === -1) {showInfo(`Value "${v}" not found`); return;}
+			ll.splice(idx, 1);
+			updateOutput();
+			updateCode(`boolean removed = list.remove("${v}");\nSystem.out.println("Removed? " + removed);\nSystem.out.println(list);`);
+			showInfo(`Removed first occurrence of "${v}".`);
+			document.getElementById('removeByValueVal').value = '';
+		}
+
+		// Poll operations (like remove but return null when empty)
+		function poll() {
+			if (ll.length === 0) {updateOutput(); updateCode(`String polled = list.poll(); // null\nSystem.out.println(polled);\n`); showInfo('Polled: null (empty)'); return;}
+			const polled = ll.shift();
+			updateOutput();
+			updateCode(`String polled = list.poll();\nSystem.out.println("Polled: " + polled);\nSystem.out.println(list);`);
+			showInfo(`Polled head: "${polled}"`);
+		}
+
+		function pollFirst() {poll();}
+
+		function pollLast() {
+			if (ll.length === 0) {updateOutput(); updateCode(`String polled = list.pollLast(); // null`); showInfo('Polled last: null (empty)'); return;}
+			const polled = ll.pop();
+			updateOutput();
+			updateCode(`String polled = list.pollLast();\nSystem.out.println("Polled last: " + polled);\nSystem.out.println(list);`);
+			showInfo(`Polled last: "${polled}"`);
+		}
+
+		// push/pop (stack via head)
+		function pushVal() {
+			const v = prompt('Enter value to push (push adds at head):');
+			if (v === null) return;
+			if (v.trim().length === 0) {showInfo('Empty value'); return;}
+			ll.unshift(v.trim());
+			updateOutput();
+			updateCode(`list.push("${v.trim()}");\nSystem.out.println(list);`);
+			showInfo(`Pushed "${v.trim()}" to head.`);
+		}
+
+		function popVal() {
+			if (ll.length === 0) {showInfo('List empty'); return;}
+			const popped = ll.shift();
+			updateOutput();
+			updateCode(`String popped = list.pop();\nSystem.out.println("Popped: " + popped);\nSystem.out.println(list);`);
+			showInfo(`Popped "${popped}" from head.`);
+		}
+
+		// Update / Get
+		function updateAtIndex() {
+			const idx = parseInt(document.getElementById('updateIdx').value);
+			const v = document.getElementById('updateVal').value.trim();
+			if (isNaN(idx) || v.length === 0) {showInfo('Enter index & value'); return;}
+			if (idx < 0 || idx >= ll.length) {showInfo(`Index 0..${ll.length - 1}`); return;}
+			const old = ll[idx];
+			ll[idx] = v;
+			updateOutput();
+			updateCode(`list.set(${idx}, "${v}");\nSystem.out.println("Updated: " + list);\n`);
+			showInfo(`Updated index ${idx}: "${old}" -> "${v}"`);
+			document.getElementById('updateIdx').value = ''; document.getElementById('updateVal').value = '';
+		}
+
+		function getAtIndex() {
+			const idx = parseInt(document.getElementById('getIdx').value);
+			if (isNaN(idx)) {showInfo('Enter index'); return;}
+			if (idx < 0 || idx >= ll.length) {showInfo(`Index 0..${ll.length - 1}`); return;}
+			updateOutput();
+			updateCode(`String v = list.get(${idx});\nSystem.out.println("Value at ${idx}: " + v);`);
+			showInfo(`Value at ${idx}: "${ll[idx]}"`);
+			document.getElementById('getIdx').value = '';
+		}
+
+		function getFirst() {
+			if (ll.length === 0) {showInfo('List empty'); updateCode(`String v = list.getFirst(); // throws NoSuchElementException`); return;}
+			updateOutput();
+			updateCode(`String v = list.getFirst();\nSystem.out.println("First: " + v);`);
+			showInfo(`First element: "${ll[0]}"`);
+		}
+
+		function getLast() {
+			if (ll.length === 0) {showInfo('List empty'); updateCode(`String v = list.getLast(); // throws NoSuchElementException`); return;}
+			updateOutput();
+			updateCode(`String v = list.getLast();\nSystem.out.println("Last: " + v);`);
+			showInfo(`Last element: "${ll[ll.length - 1]}"`);
+		}
+
+		// Search / Utility
+		function containsVal() {
+			const v = document.getElementById('searchVal').value.trim();
+			if (!v) {showInfo('Enter value to search'); return;}
+			const found = ll.includes(v);
+			updateOutput();
+			updateCode(`boolean found = list.contains("${v}");\nSystem.out.println("Contains ${v}? " + found);`);
+			showInfo(found ? `Found "${v}" at index ${ll.indexOf(v)}` : `"${v}" not found`);
+			document.getElementById('searchVal').value = '';
+		}
+
+		function indexOfVal() {
+			const v = document.getElementById('searchVal').value.trim();
+			if (!v) {showInfo('Enter value'); return;}
+			const idx = ll.indexOf(v);
+			updateOutput();
+			updateCode(`int idx = list.indexOf("${v}");\nSystem.out.println("indexOf: " + idx);`);
+			showInfo(idx === -1 ? `"${v}" not found` : `"${v}" found at ${idx}`);
+			document.getElementById('searchVal').value = '';
+		}
+
+		function lastIndexOfVal() {
+			const v = document.getElementById('searchVal').value.trim();
+			if (!v) {showInfo('Enter value'); return;}
+			const idx = ll.lastIndexOf(v);
+			updateOutput();
+			updateCode(`int idx = list.lastIndexOf("${v}");\nSystem.out.println("lastIndexOf: " + idx);`);
+			showInfo(idx === -1 ? `"${v}" not found` : `"${v}" last at ${idx}`);
+			document.getElementById('searchVal').value = '';
+		}
+
+		function sizeOf() {
+			updateOutput();
+			updateCode(`int size = list.size();\nSystem.out.println("Size: " + size);`);
+			showInfo(`Size = ${ll.length}`);
+		}
+
+		function isEmpty() {
+			updateOutput();
+			updateCode(`boolean empty = list.isEmpty();\nSystem.out.println("Empty? " + empty);`);
+			showInfo(ll.length === 0 ? 'List is empty' : 'List is not empty');
+		}
+
+		function toArrayOp() {
+			const arr = Array.from(ll);
+			updateOutput();
+			updateCode(`Object[] arr = list.toArray();\nSystem.out.println(Arrays.toString(arr));`);
+			showInfo(`toArray -> [${arr.join(', ')}]`);
+		}
+
+		function cloneOp() {
+			const cloned = [...ll];
+			updateOutput();
+			updateCode(`LinkedList<String> cloned = (LinkedList<String>) list.clone();\nSystem.out.println(cloned);`);
+			showInfo('Cloned list (view displayed in info).');
+		}
+
+		// Iteration / Iterator ops
+		function iterateFor() {
+			let s = '';
+			for (let i = 0; i < ll.length; i++) {s += ll[i] + '\\n';}
+			updateOutput();
+			updateCode(`for (int i = 0; i < list.size(); i++) {\n    System.out.println(list.get(i));\n}`);
+			showInfo('Iterated using for loop (see output panel).');
+		}
+
+		function iterateForEach() {
+			updateOutput();
+			updateCode(`for (String s : list) {\n    System.out.println(s);\n}`);
+			showInfo('Iterated using for-each.');
+		}
+
+		function iteratorOp() {
+			updateOutput();
+			updateCode(`Iterator<String> it = list.iterator();\nwhile (it.hasNext()) {\n    System.out.println(it.next());\n}`);
+			showInfo('Iterator traversal simulated.');
+		}
+
+		function descendingIteratorOp() {
+			const desc = [...ll].reverse();
+			updateOutput();
+			updateCode(`Iterator<String> descItr = list.descendingIterator();\nwhile (descItr.hasNext()) {\n    System.out.println(descItr.next());\n}`);
+			showInfo('Descending iterator (reversed list shown).');
+			// show reversed in output briefly
+			const outputDiv = document.getElementById("output");
+			outputDiv.innerHTML = `<div class="text-cyan-400 mono">${JSON.stringify(desc, null, 2)}</div>`;
+			setTimeout(() => updateOutput(), 2200);
+		}
+
+		// Initialize view
+		updateOutput();
+		updateCode(`// Ready — use the controls to operate on the simulated LinkedList.`);
+	</script>
+</body>
+
+</html>
