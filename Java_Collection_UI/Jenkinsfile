@@ -1,0 +1,35 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/BalkundeAkash/Collection-dev.git'
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                dir('Java_Collection_UI') {
+                    sh 'npm install'
+                }
+            }
+        }
+
+        stage('Build') {
+            steps {
+                dir('Java_Collection_UI') {
+                    sh 'npm run build'
+                }
+            }
+        }
+
+        stage('Archive Artifacts') {
+            steps {
+                dir('Java_Collection_UI') {
+                    archiveArtifacts artifacts: '**/build/**', fingerprint: true
+                }
+            }
+        }
+    }
+}
