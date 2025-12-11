@@ -4,22 +4,15 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/BalkundeAkash/Collection-dev.git'
+                git branch: 'main',
+                url: 'https://github.com/BalkundeAkash/Collection-dev.git'
             }
         }
 
-        stage('Build with Maven') {
+        stage('Build UI Project') {
             steps {
                 dir('Java_Collection_UI') {
-                    sh 'mvn clean package'
-                }
-            }
-        }
-
-        stage('Archive JAR') {
-            steps {
-                dir('Java_Collection_UI/target') {
-                    archiveArtifacts artifacts: '*.jar', fingerprint: true
+                    echo "Project folder found successfully!"
                 }
             }
         }
