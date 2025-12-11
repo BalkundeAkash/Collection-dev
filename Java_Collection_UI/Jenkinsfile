@@ -8,26 +8,18 @@ pipeline {
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Build with Maven') {
             steps {
                 dir('Java_Collection_UI') {
-                    sh 'npm install'
+                    sh 'mvn clean package'
                 }
             }
         }
 
-        stage('Build') {
+        stage('Archive JAR') {
             steps {
-                dir('Java_Collection_UI') {
-                    sh 'npm run build'
-                }
-            }
-        }
-
-        stage('Archive Artifacts') {
-            steps {
-                dir('Java_Collection_UI') {
-                    archiveArtifacts artifacts: '**/build/**', fingerprint: true
+                dir('Java_Collection_UI/target') {
+                    archiveArtifacts artifacts: '*.jar', fingerprint: true
                 }
             }
         }
